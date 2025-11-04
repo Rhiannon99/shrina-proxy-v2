@@ -1,0 +1,49 @@
+# Cloudflare Workers configuration for M3U8 Proxy
+# Note: Hono works natively with Cloudflare Workers!
+
+name = "shrina-proxy-v2"
+main = "src/index.ts"
+compatibility_date = "2024-01-01"
+node_compat = true
+
+# Workers Plan - Free tier: 100k requests/day
+# Paid tier: Unlimited requests
+account_id = "" # Add your Cloudflare account ID here
+workers_dev = true
+
+# Routes (optional - for custom domains)
+# routes = [
+#   { pattern = "proxy.yourdomain.com/*", zone_name = "yourdomain.com" }
+# ]
+
+# Environment variables
+[env.production]
+name = "m3u8-proxy-production"
+
+[env.production.vars]
+NODE_ENV = "production"
+LOG_LEVEL = "info"
+PORT = "8787"
+
+[env.staging]
+name = "m3u8-proxy-staging"
+
+[env.staging.vars]
+NODE_ENV = "staging"
+LOG_LEVEL = "debug"
+PORT = "8787"
+
+# Build configuration
+[build]
+command = "npm run build"
+
+# Limits and settings
+[limits]
+cpu_ms = 50  # 50ms CPU time limit (Free tier)
+
+# Compatibility flags for Node.js APIs
+compatibility_flags = ["nodejs_compat"]
+
+# Custom domain (optional)
+# [site]
+# bucket = "./dist"
